@@ -1,0 +1,50 @@
+C++ CODE FOR NODE CREATION
+
+
+#include<iostream>
+using namespace std;
+
+class Node{
+
+    public: 
+    int data;
+    Node* next;
+
+    Node(int data){
+
+        this->data = data;
+        this->next = NULL;
+    }
+
+};
+int main (){
+    
+    // node creation
+    Node* node1 = new Node(10);
+    cout<< "data in node : "<< node1->data <<endl;
+    
+
+
+    return 0;
+}
+
+C CODE FOR NODE CREATION
+#include<stdio.h>
+#include<stdlib.h>
+
+struct Node{
+    int data;
+    struct Node* next;
+};
+          
+int main (){
+    
+    struct Node* node1 = (struct Node*) malloc(sizeof(struct Node));
+    node1->data = 10;
+    node1->next = NULL;
+    printf("data in node : %d\n", node1->data);
+    free(node1);
+    return 0;
+}
+
+
