@@ -1,0 +1,96 @@
+##### C++ code for insert at head
+#include<iostream>
+using namespace std;
+
+class Node{
+    
+    public:
+    
+    int data;
+    Node* next;
+    
+    
+    Node(int data ){
+        
+        this->data = data;
+        this->next = NULL;
+        
+    }
+    
+    
+};
+    
+    void insertAThead(Node* &head, int d){
+        
+        Node* temp = new Node(d);
+        temp->next = head;
+        head = temp;
+        
+    }
+
+    void print(Node* &head){
+        
+        Node* temp = head;
+        while(temp != NULL){
+            cout<< temp->data<<endl;
+            temp = temp->next;
+        }
+        cout<<endl;
+        
+    }    
+
+int main(){ 
+    
+    Node* node1 = new Node(10);          
+    cout<<"Data : "<< node1->data <<endl;  // *(node1).data
+    
+    
+    Node* head = node1;
+    Node* tail = node1;
+    
+    insertAThead(head, 12); 
+    print(head);
+    
+    return 0;
+}
+
+
+
+##### C code for insert at head
+
+#include<stdio.h>
+#include<stdlib.h>
+
+struct Node{
+    int data;
+    struct Node* next;
+};
+
+void insertAThead(struct Node** head, int d){
+    struct Node* temp = (struct Node*)malloc(sizeof(struct Node));
+    temp->data = d;
+    temp->next = *head;
+    *head = temp;
+}
+
+void print(struct Node* head){
+    struct Node* temp = head;
+    while(temp != NULL){
+        printf("%d\n", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+int main(){
+    struct Node* node1 = (struct Node*)malloc(sizeof(struct Node));
+    node1->data = 10;
+    printf("Data : %d\n", node1->data);
+    struct Node* head = node1;
+    struct Node* tail = node1;
+    insertAThead(&head, 12);
+    print(head);
+    return 0;
+}
+
+
