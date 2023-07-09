@@ -1,0 +1,52 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct Node{
+    struct Node* next;
+    int data;
+};
+struct Node* createNode(int data){
+    struct Node* newNode = (struct Node*) malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+void insert_node(struct Node** head, int data){
+    struct Node* newNode = createNode(data);
+    if(*head == NULL){
+        *head = newNode;
+    }
+    else{
+        struct Node* temp = *head;
+        while(temp->next != NULL){
+            temp = temp->next;
+        }
+        temp->next = newNode;
+    }
+}
+void display(struct Node** head){
+    struct Node*temp = *head;
+    if(temp == NULL){
+        printf("empty");
+    }
+    else{
+        printf("Linked List : ");
+        while(temp!=NULL){
+            printf("%d ", temp->data);
+            temp = temp->next;
+        }
+    }
+}
+int main(){
+    struct Node* head = NULL;
+    
+    insert_node(&head, 1);
+    insert_node(&head, 2);
+    insert_node(&head, 3);
+    insert_node(&head, 4);
+    insert_node(&head, 5);
+
+    // Display the linked list
+    display(&head);
+    
+    return 0;
+}
