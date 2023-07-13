@@ -1,0 +1,250 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define the structure for a node
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+// Function to create a new node
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// Function to insert a new node at the head of the list
+void insertAtHead(struct Node** head, int data) {
+    struct Node* newNode = createNode(data);
+
+    if (*head == NULL) {
+        *head = newNode;
+    } else {
+        newNode->next = *head;
+        *head = newNode;
+    }
+}
+
+// Function to insert a new node at the tail of the list
+void insertAtTail(struct Node** head, int data) {
+    struct Node* newNode = createNode(data);
+
+    if (*head == NULL) {
+        *head = newNode;
+    } else {
+        struct Node* temp = *head;
+        while (temp->next != NULL) {
+            temp = temp->next;
+        }
+        temp->next = newNode;
+    }
+}
+
+// Function to insert a new node at a specific position in the list
+void insertAtPosition(struct Node** head, int data, int position) {
+    if (position < 1) {
+        printf("Invalid position.\n");
+        return;
+    }
+
+    struct Node* newNode = createNode(data);
+
+    if (position == 1) {
+        newNode->next = *head;
+        *head = newNode;
+    } else {
+        struct Node* temp = *head;
+        int count = 1;
+
+        while (temp != NULL && count < position - 1) {
+            temp = temp->next;
+            count++;
+        }
+
+        if (temp == NULL) {
+            printf("Invalid position.\n");
+            return;
+        }
+
+        newNode->next = temp->next;
+        temp->next = newNode;
+    }
+}
+
+// Function to insert a new node at the middle of the list
+void insertAtMiddle(struct Node** head, int data) {
+    if (*head == NULL) {
+        *head = createNode(data);
+        return;
+    }
+
+    struct Node* slowPtr = *head;
+    struct Node* fastPtr = *head;
+
+    while (fastPtr != NULL && fastPtr->next != NULL) {
+        slowPtr = slowPtr->next;
+        fastPtr = fastPtr->next->next;
+    }
+
+    struct Node* newNode = createNode(data);
+    newNode->next = slowPtr->next;
+    slowPtr->next = newNode;
+}
+
+// Function to delete the first node in the list
+void deleteFirstNode(struct Node** head) {
+    if (*head == NULL) {
+        printf("List is empty. Unable to delete.\n");
+        return;
+    }
+
+    struct Node* temp = *head;
+    *head = (*head)->next;
+    free(temp);
+}
+
+// Function to delete the last node in the list
+void deleteLastNode(struct Node** head) {
+    if (*head == NULL) {
+        printf("List is empty. Unable to delete.\n");
+        return;
+    }
+
+    if ((*head)->next == NULL) {
+        free(*head);
+        *head = NULL;
+        return;
+    }
+
+    struct Node* temp = *head;
+    while (temp->next->next != NULL) {
+        temp = temp->next;
+    }
+    free(temp->next);
+    temp->next = NULL;
+}
+
+// Function to delete a node at a specific position in the list
+void deleteAtPosition(struct Node** head, int position) {
+    if (*head == NULL) {
+        printf("List is empty. Unable to delete.\n");
+        return;
+    }
+
+    if (position < 1) {
+        printf("Invalid position.\n");
+        return;
+    }
+
+    if (position == 1) {
+        struct Node* temp = *head;
+        *head = (*head)->next;
+        free(temp);
+        return;
+    }
+
+    struct Node* temp = *head;
+    int count = 1;
+
+    while (temp != NULL && count < position - 1) {
+        temp = temp->next;
+        count++;
+    }
+
+    if (temp == NULL || temp->next == NULL) {
+        printf("Invalid position.\n");
+        return;
+    }
+
+    struct Node* nodeToDelete = temp->next;
+    temp->next = nodeToDelete->next;
+    free(nodeToDelete);
+}
+
+// Function to display the linked list
+void displayList(struct Node* head) {
+    struct Node* temp = head;
+
+    if (temp == NULL) {
+        printf("List is empty.\n");
+    } else {
+        printf("Linked List: ");
+        while (temp != NULL) {
+            printf("%d ", temp->data);
+            temp = temp->next;
+        }
+        printf("\n");
+    }
+}
+
+// Function to free the memory allocated for the linked list
+void freeList(struct Node* head) {
+    struct Node* temp = head;
+    while (temp != NULL) {
+        struct Node* nextNode = temp->next;
+        free(temp);
+        temp = nextNode;
+    }
+}
+
+// Main function
+int main() {
+    struct Node* head = NULL;
+
+    // Insert nodes into the linked list at the head
+    insertAtHead(&head, 5);
+    insertAtHead(&head, 4);
+    insertAtHead(&head, 3);
+    insertAtHead(&head, 2);
+    insertAtHead(&head, 1);
+
+    // Display the linked list
+    displayList(head);
+
+    // Insert nodes into the linked list at the tail
+    insertAtTail(&head, 6);
+    insertAtTail(&head, 7);
+    insertAtTail(&head, 8);
+    insertAtTail(&head, 9);
+    insertAtTail(&head, 10);
+
+    // Display the updated linked list
+    displayList(head);
+
+    // Insert a node at a specific position
+    insertAtPosition(&head, 99, 3);
+
+    // Display the updated linked list
+    displayList(head);
+
+    // Insert a node at the middle of the list
+    insertAtMiddle(&head, 42);
+
+    // Display the updated linked list
+    displayList(head);
+
+    // Delete the first node
+    deleteFirstNode(&head);
+
+    // Display the updated linked list
+    displayList(head);
+
+    // Delete the last node
+    deleteLastNode(&head);
+
+    // Display the updated linked list
+    displayList(head);
+
+    // Delete a node at a specific position
+    deleteAtPosition(&head, 3);
+
+    // Display the updated linked list
+    displayList(head);
+
+    // Free the memory allocated for the linked list
+    freeList(head);
+
+    return 0;
+}
